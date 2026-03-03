@@ -1,0 +1,25 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null &&
+        exists(/databases/$(database)/documents/adminUsers/$(request.auth.uid));
+    }
+
+    match /homeContent/{id} { allow read: if true; allow write: if isAdmin(); }
+    match /programs/{id} { allow read: if true; allow write: if isAdmin(); }
+    match /branches/{id} { allow read: if true; allow write: if isAdmin(); }
+    match /gallery/{id} { allow read: if true; allow write: if isAdmin(); }
+    match /announcements/{id} { allow read: if true; allow write: if isAdmin(); }
+    match /beltExams/{id} { allow read: if true; allow write: if isAdmin(); }
+    match /pages/{id} {
+      allow read: if resource.data.published == true || isAdmin();
+      allow write: if isAdmin();
+    }
+    match /beltRegistrations/{id} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+    match /adminUsers/{id} { allow read, write: if isAdmin(); }
+  }
+}
