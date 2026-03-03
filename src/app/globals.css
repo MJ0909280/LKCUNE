@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-black text-white;
+  background: radial-gradient(circle at top, #071A1F 0%, #000 45%);
+}
+
+.glass {
+  @apply bg-white/5 backdrop-blur-lg border border-cyan-400/30 rounded-xl;
+}
+
+.neon-border { box-shadow: 0 0 14px rgba(0,255,255,.4); }
